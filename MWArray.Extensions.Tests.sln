@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWArray.Extensions.Tests", "MWArray.Extensions.Tests.csproj", "{30D6BA55-2330-4CB6-9250-AED6E6C043FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWArray.Extensions.Tests", "MWArray.Extensions.Tests\MWArray.Extensions.Tests.csproj", "{F136DCAF-8EE8-44B1-88F6-20FF1722FE4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC98D88B-1A91-4E14-B1F6-D0C706BC319B}"
+	ProjectSection(SolutionItems) = preProject
+		MWArray.Extensions.runsettings = MWArray.Extensions.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +16,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{30D6BA55-2330-4CB6-9250-AED6E6C043FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30D6BA55-2330-4CB6-9250-AED6E6C043FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30D6BA55-2330-4CB6-9250-AED6E6C043FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30D6BA55-2330-4CB6-9250-AED6E6C043FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F136DCAF-8EE8-44B1-88F6-20FF1722FE4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F136DCAF-8EE8-44B1-88F6-20FF1722FE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F136DCAF-8EE8-44B1-88F6-20FF1722FE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F136DCAF-8EE8-44B1-88F6-20FF1722FE4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
