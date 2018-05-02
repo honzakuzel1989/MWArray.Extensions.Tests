@@ -466,11 +466,11 @@ namespace MWArray.Extensions.Tests
             var f = "arrayfield";
             Array value = Enumerable.Range(0, 42).ToArray();
             var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
-            var res = new MWNumericArray(value);
+            var result = new MWNumericArray(value);
 
-            sa[f] = res;
+            sa[f] = result;
 
-            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(res));
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
         }
 
         [Test()]
@@ -479,11 +479,224 @@ namespace MWArray.Extensions.Tests
             var f = "arrayfield";
             Array value = Enumerable.Range(0, 42).Select(i => (double)i).ToArray();
             var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
-            var res = new MWNumericArray(value);
+            var result = new MWNumericArray(value);
 
-            sa[f] = res;
+            sa[f] = result;
 
-            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(res));
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_Array_Bool_Input()
+        {
+            var f = "arrayfield";
+            Array value = Enumerable.Range(0, 42).Select(i => i % 2 == 0).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var result = new MWLogicalArray(value);
+
+            sa[f] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_Bool_Input()
+        {
+            var f = "arrayfield";
+            bool value = true;
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var result = new MWLogicalArray(value);
+
+            sa[f] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_Array_String_Input()
+        {
+            var f = "arrayfield";
+            Array value = Enumerable.Range(0, 42).Select(i => i.ToString()).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var result = new MWCharArray(value);
+
+            sa[f] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_String_Input()
+        {
+            var f = "arrayfield";
+            string value = "value";
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var result = new MWCharArray(value);
+
+            sa[f] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_Char_Input()
+        {
+            var f = "arrayfield";
+            char value = 'c';
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var result = new MWCharArray(value);
+
+            sa[f] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa, f).Equals(result));
+        }
+
+        [Test()]
+        public void MWArray_GetField_Composite_Field_Name_Input()
+        {
+            var f1 = "composite";
+            var f2 = "field";
+
+            var f = $"{f1}.{f2}";
+            Array value = Enumerable.Range(0, 42).ToArray();
+            var result = new MWNumericArray(value);
+
+            var sa1 = new MWStructArray(new int[] { 1 }, new string[] { f1 });
+            var sa2 = new MWStructArray(new int[] { 1 }, new string[] { f2 });
+
+            sa1[f1] = sa2;
+            sa2[f2] = result;
+
+            Assert.That(MWArrayExtensions.GetField(sa1, f).Equals(result));
+            Assert.That(MWArrayExtensions.GetField(sa2, f2).Equals(result));
+            Assert.That(MWArrayExtensions.GetField(sa1, f1).Equals(sa2));
+        }
+
+        [Test()]
+        public void MWArray_GetField_InvalidOperationException_NonExists_Field_Test()
+        {
+            var f = "arrayfield";
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            sa[f] = new MWNumericArray();
+
+            Assert.That(() => MWArrayExtensions.GetField(sa, "nonexists"), Throws.InvalidOperationException);
+
+        }
+
+        [Test()]
+        public void MWArray_GetField_InvalidOperationException_EmptyStructArray_Test()
+        {
+            Assert.That(() => MWArrayExtensions.GetField(new MWStructArray(), "epmty"), Throws.InvalidOperationException);
+
+        }
+        #endregion
+
+        #region GetFieldAsSingleItem (== GetField + ToSingleItem)
+        [Test()]
+        public void MWArray_GetFieldAsSingleItem_Numeric_Input()
+        {
+            var f = "arrayfield";
+            var value = 42.42f;
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWNumericArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsSingleItem<double>(sa, f), Is.EqualTo(value));
+        }
+
+        [Test()]
+        public void MWArray_GetFieldAsSingleItem_Bool_Input()
+        {
+            var f = "arrayfield";
+            var value = false;
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWLogicalArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsSingleItem<bool>(sa, f), Is.EqualTo(value));
+        }
+
+        public void MWArray_GetFieldAsSingleItem_Numeric_Multiple_Input()
+        {
+            var f = "arrayfield";
+            int first = 0;
+            Array value = Enumerable.Range(first, 42).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWNumericArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsSingleItem<double>(sa, f), Is.EqualTo(first));
+        }
+
+        [Test()]
+        public void MWArray_GetFieldAsSingleItem_Bool_Multiple_Input()
+        {
+            var f = "arrayfield";
+            bool first = 0 % 2 == 0;
+            Array value = Enumerable.Range(0, 42).Select(i => i % 2 == 0).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWLogicalArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsSingleItem<bool>(sa, f), Is.EqualTo(first));
+        }
+        #endregion
+
+        #region GetFieldAsArray (== GetField + ToArray)
+        [Test()]
+        public void MWArray_GetFieldAsArray_Numeric_Input()
+        {
+            var f = "arrayfield";
+            Array value = Enumerable.Range(0, 42).Select(i => (double)i).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWNumericArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsArray<double>(sa, f), Is.EquivalentTo(value));
+        }
+
+        [Test()]
+        public void MWArray_GetFieldAsArray_Bool_Input()
+        {
+            var f = "arrayfield";
+            Array value = Enumerable.Range(0, 42).Select(i => i % 2 == 0).ToArray();
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWLogicalArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsArray<bool>(sa, f), Is.EquivalentTo(value));
+        }
+
+        [Test()]
+        public void MWArray_GetFieldAsArray_Bool_Single_Input()
+        {
+            var f = "arrayfield";
+            bool value = true;
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWLogicalArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsArray<bool>(sa, f), Is.EquivalentTo(new bool[] { value }));
+        }
+
+        [Test()]
+        public void MWArray_GetFieldAsArray_Numeric_Single_Input()
+        {
+            var f = "arrayfield";
+            int value = 42;
+            var sa = new MWStructArray(new int[] { 1 }, new string[] { f });
+            var na = new MWNumericArray(value);
+
+            sa[f] = na;
+
+            Assert.That(MWArrayExtensions.GetFieldAsArray<double>(sa, f), Is.EquivalentTo(new int[] { value }));
         }
         #endregion
     }
