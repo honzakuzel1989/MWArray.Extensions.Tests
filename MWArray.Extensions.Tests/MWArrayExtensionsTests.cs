@@ -24,6 +24,12 @@ namespace MWArray.Extensions.Tests
             Assert.That(() => MWArrayExtensions.ToSingleItem<bool>(MWCellArray.Empty), Throws.ArgumentException);
         }
 
+        [Test()]
+        public void MWArray_ToSingleItem_Empty_Array_ArgumentException_Test()
+        {
+            Assert.That(() => MWArrayExtensions.ToSingleItem<bool>(new MWNumericArray()), Throws.ArgumentException);
+        }
+
         [TestCase(0)]
         [TestCase(17)]
         [TestCase(-7)]
@@ -291,6 +297,42 @@ namespace MWArray.Extensions.Tests
         {
             Assert.That(() => MWArrayExtensions.ToEnumerableOfArrays<object>(null), Throws.ArgumentNullException);
             Assert.That(() => MWArrayExtensions.ToEnumerableOfArrays<short>(MWStructArray.Empty), Throws.ArgumentException);
+        }
+
+        [Test()]
+        public void MWArray_ToEnumerableOfNumericArray_Empty_Array_Test()
+        {
+            Assert.That(MWArrayExtensions.ToEnumerableOfArrays<int>(new MWNumericArray()), Is.EquivalentTo(Array.Empty<IEnumerable<int[]>>()));
+        }
+
+        [Test()]
+        public void MWArray_ToEnumerableOfNumericArray_Array_Of_Null_Test()
+        {
+            var ik = new int[8][];
+
+            // INFO: new MWNumericArray throws nullreferenceexception.
+            //Assert.That(MWArrayExtensions.ToEnumerableOfArrays<int>(new MWNumericArray(ik)), Is.EquivalentTo(ik));
+            Assert.Pass();
+        }
+
+        [Test()]
+        public void MWArray_ToEnumerableOfNumericArray_Array_Of_Empty_Arrays_Test()
+        {
+            var ik = new int[8][];
+            for (int i = 0; i < 8; i++)
+                ik[i] = new int[] { };
+
+            Assert.That(MWArrayExtensions.ToEnumerableOfArrays<int>(new MWNumericArray(ik)), Is.EquivalentTo(ik));
+        }
+
+        [Test()]
+        public void MWArray_ToEnumerableOfNumericArray_Array_With_One_Item_Test()
+        {
+            var ik = new int[1][];
+            for (int i = 0; i < 1; i++)
+                ik[i] = new int[] { 1 };
+
+            Assert.That(MWArrayExtensions.ToEnumerableOfArrays<int>(new MWNumericArray(ik)), Is.EquivalentTo(ik));
         }
 
         [Test()]
