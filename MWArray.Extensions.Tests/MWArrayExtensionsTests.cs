@@ -196,7 +196,7 @@ namespace MWArray.Extensions.Tests
         [Test]
         public void MWArray_ToArray_BigArray_Int_Test()
         {
-            var largeItem = Enumerable.Range(-50000, 50000).ToArray();
+            var largeItem = Enumerable.Range(-5000, 5000).ToArray();
             Assert.That(MWArrayExtensions.ToArray<int>(new MWNumericArray(largeItem as Array)), Is.EquivalentTo(largeItem));
         }
 
@@ -237,7 +237,7 @@ namespace MWArray.Extensions.Tests
         [Test]
         public void MWArray_ToArray_BigArray_Double_Test()
         {
-            var largeItem = Enumerable.Range(-50000, 50000).Select(i => (double)i).ToArray();
+            var largeItem = Enumerable.Range(-5000, 5000).Select(i => (double)i).ToArray();
             Assert.That(MWArrayExtensions.ToArray<double>(new MWNumericArray(largeItem as Array)), Is.EquivalentTo(largeItem));
         }
 
